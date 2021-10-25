@@ -50,7 +50,7 @@ resource "null_resource" "patchSBO" {
 
 }
 
-/*
+
 resource "null_resource" "entitlesecret" {
   depends_on = [
     null_resource.patchSBO
@@ -79,8 +79,39 @@ resource "null_resource" "entitlesecret" {
   }
 
 }
-*/
 
+resource "null_resource" "mongopass" {
+  depends_on = [
+    null_resource.patchSBO
+  ]
+
+  triggers = {
+    sls_namespace=var.sls_namespace
+    sls_mongopw=var.mongo_dbpass
+
+    kubeconfig = var.cluster_config_file
+  }
+
+  provisioner "local-exec" {
+    command = "kubectl create secret generic sls-mongo-credentials --from-literal=username=admin --from-literal=password=${self.triggers.sls_mongopw} -n ${self.triggers.sls_namespace}"
+
+    environment = {
+      KUBECONFIG = self.triggers.kubeconfig
+    }
+  }
+  
+  provisioner "local-exec" {
+    when = destroy
+    command = "kubectl delete secret  sls-mongo-credentials -n ${self.triggers.sls_namespace}"
+
+    environment = {
+      KUBECONFIG = self.triggers.kubeconfig
+    }
+  }
+
+}
+
+/*
 resource "kubernetes_secret" "regentitlement" {
   metadata {
     name = "ibm-entitlement"
@@ -114,4 +145,7 @@ resource "kubernetes_secret" "mongopass" {
 
   type = "Opaque"
 }
+
+*/
+
 
