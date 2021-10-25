@@ -116,13 +116,17 @@ resource "null_resource" "mongopass" {
 }
 
 resource "null_resource" "deploy_lic" {
+    depends_on = [
+    null_resource.mongopass
+  ]
+  
   triggers = {
     ingress_subdomain = var.cluster_ingress_hostname 
     kubeconfig = var.cluster_config_file
   }
 
   provisioner "local-exec" {
-    command = "${path.module}/scripts/deployLIC.sh"
+    command = "${path.module}/scripts/deployLIC.sh ${self.triggers.ingress_subdomain}"
 
     environment = {
       KUBECONFIG = self.triggers.kubeconfig
