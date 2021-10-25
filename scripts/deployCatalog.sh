@@ -11,3 +11,5 @@ else
     echo "adding catalog..."
     kubectl apply -f  "${CHARTS_DIR}/catalog.yaml"
 fi
+
+sleep 1m
