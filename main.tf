@@ -36,6 +36,10 @@ resource "null_resource" "deploy_catalog" {
 # Service Binding Operator
 
 resource "null_resource" "patchSBO" {
+  depends_on = [
+    null_resource.deploy_catalog
+  ]
+  
   triggers = {
     kubeconfig = var.cluster_config_file
   }
