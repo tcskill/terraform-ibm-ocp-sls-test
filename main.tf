@@ -72,7 +72,7 @@ resource "null_resource" "entitlesecret" {
       KUBECONFIG = self.triggers.kubeconfig
     }
   }
-  
+  /*
   provisioner "local-exec" {
     when = destroy
     command = "kubectl delete secret docker-registry -n ${self.triggers.sls_namespace}"
@@ -81,7 +81,7 @@ resource "null_resource" "entitlesecret" {
       KUBECONFIG = self.triggers.kubeconfig
     }
   }
-
+*/
 }
 
 resource "null_resource" "mongopass" {
@@ -103,7 +103,7 @@ resource "null_resource" "mongopass" {
       KUBECONFIG = self.triggers.kubeconfig
     }
   }
-  
+  /*
   provisioner "local-exec" {
     when = destroy
     command = "kubectl delete secret  sls-mongo-credentials -n ${self.triggers.sls_namespace}"
@@ -112,44 +112,29 @@ resource "null_resource" "mongopass" {
       KUBECONFIG = self.triggers.kubeconfig
     }
   }
-
-}
-
-/*
-resource "kubernetes_secret" "regentitlement" {
-  metadata {
-    name = "ibm-entitlement"
-    namespace = var.sls_namespace
-  }
-
-  data = {
-    ".dockerconfigjson" = jsonencode({
-      auths = {
-        "cp.icr.io" = {
-          auth = base64encode("cp:${var.sls_key}")
-        }
-      }
-    })
-  }
-
-  type = "kubernetes.io/dockerconfigjson"
-}
-
-
-resource "kubernetes_secret" "mongopass" {
-  metadata {
-    name = "sls-mongo-credentials"
-    namespace = var.sls_namespace
-  }
-
-  data = {
-    username = "admin"
-    password = var.mongo_dbpass
-  }
-
-  type = "Opaque"
-}
-
 */
+}
 
+resource "null_resource" "deploy_lic" {
+  triggers = {
+    ingress_subdomain = var.cluster_ingress_hostname 
+    kubeconfig = var.cluster_config_file
+  }
 
+  provisioner "local-exec" {
+    command = "${path.module}/scripts/deployLIC.sh"
+
+    environment = {
+      KUBECONFIG = self.triggers.kubeconfig
+    }
+  }
+
+  provisioner "local-exec" {
+    when = destroy
+    command = "${path.module}/scripts/deployLIC.sh destroy"
+
+    environment = {
+      KUBECONFIG = self.triggers.kubeconfig
+    }
+  }
+}

@@ -35,6 +35,7 @@ variable "sls_key" {
 variable "mongo_dbpass" {
   type        = string
   description = "mongodb password"
+  sensitive = true
 
 }
 
