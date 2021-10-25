@@ -50,6 +50,7 @@ resource "null_resource" "patchSBO" {
 
 }
 
+/*
 resource "null_resource" "entitlesecret" {
   depends_on = [
     null_resource.patchSBO
@@ -77,5 +78,40 @@ resource "null_resource" "entitlesecret" {
     }
   }
 
-
 }
+*/
+
+resource "kubernetes_secret" "regentitlement" {
+  metadata {
+    name = "ibm-entitlement"
+    namespace = var.sls_namespace
+  }
+
+  data = {
+    ".dockerconfigjson" = jsonencode({
+      auths = {
+        "cp.icr.io" = {
+          auth = "${base64encode("cp:${var.sls_key}")}"
+        }
+      }
+    })
+  }
+
+  type = "kubernetes.io/dockerconfigjson"
+}
+
+
+resource "kubernetes_secret" "mongopass" {
+  metadata {
+    name = "sls-mongo-credentials"
+    namespace = var.sls_namespace
+  }
+
+  data {
+    username = "admin"
+    password = var.mongo_dbpass
+  }
+
+  type = "Opaque"
+}
+
