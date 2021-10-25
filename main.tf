@@ -91,7 +91,7 @@ resource "kubernetes_secret" "regentitlement" {
     ".dockerconfigjson" = jsonencode({
       auths = {
         "cp.icr.io" = {
-          auth = "${base64encode("cp:${var.sls_key}")}"
+          auth = base64encode("cp:${var.sls_key}")
         }
       }
     })
