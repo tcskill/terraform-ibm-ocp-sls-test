@@ -107,7 +107,7 @@ resource "kubernetes_secret" "mongopass" {
     namespace = var.sls_namespace
   }
 
-  data {
+  data = {
     username = "admin"
     password = var.mongo_dbpass
   }
