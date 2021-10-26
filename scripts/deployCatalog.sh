@@ -13,4 +13,5 @@ else
     kubectl apply -f  "${CHARTS_DIR}/catalog.yaml"
 fi
 
+#wait for deploy or destroy to complete
 sleep 1m
