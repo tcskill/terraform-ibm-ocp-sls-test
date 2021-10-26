@@ -99,9 +99,37 @@ resource "null_resource" "mongopass" {
 
 }
 
-resource "null_resource" "deploy_lic" {
+resource "null_resource" "deploy_liccsv" {
     depends_on = [
     null_resource.mongopass
+  ]
+  
+  triggers = {
+    sls_namespace=var.sls_namespace
+    kubeconfig = var.cluster_config_file
+  }
+
+  provisioner "local-exec" {
+    command = "${path.module}/scripts/deployLICCSV.sh ${self.triggers.sls_namespace}"
+
+    environment = {
+      KUBECONFIG = self.triggers.kubeconfig
+    }
+  }
+
+  provisioner "local-exec" {
+    when = destroy
+    command = "${path.module}/scripts/deployLICCSV.sh ${self.triggers.sls_namespace} destroy"
+
+    environment = {
+      KUBECONFIG = self.triggers.kubeconfig
+    }
+  }
+}
+
+resource "null_resource" "deploy_lic" {
+    depends_on = [
+    null_resource.deploy_liccsv
   ]
   
   triggers = {

@@ -8,8 +8,7 @@ SLSSTOR="$3"
 
 if [[ "$4" == "destroy" ]]; then
     echo "remove license service..."
-    #kubectl delete -f  "${CHARTS_DIR}/catalog.yaml"
-   
+    kubectl delete LicenseService sls -n ${SLSNAMESPACE}
 else 
     echo "adding license service..."
     CACERT=$(kubectl get ConfigMap mas-mongo-ce-cert-map -n mongo -o jsonpath='{.data.ca\.crt}')
@@ -49,7 +48,7 @@ spec:
       size: 20G
 EOL
 
-    kubectl apply -f  "${CHARTS_DIR}/license_sls.yaml"
+    kubectl create -f  "${CHARTS_DIR}/license_sls.yaml" -n ${SLSNAMESPACE}
 fi
 
 #wait for deployment
