@@ -119,7 +119,7 @@ resource "null_resource" "deploy_lic" {
 
   provisioner "local-exec" {
     when = destroy
-    command = "${path.module}/scripts/deployLIC.sh destroy"
+    command = "${path.module}/scripts/deployLIC.sh null destroy"
 
     environment = {
       KUBECONFIG = self.triggers.kubeconfig
