@@ -1,6 +1,8 @@
 locals {
   bin_dir = module.setup_clis.bin_dir
   tmp_dir = "${path.cwd}/.tmp"
+  ingress_subdomain = "${var.cluster_ingress_hostname}"
+
 }
 
 
@@ -121,12 +123,12 @@ resource "null_resource" "deploy_lic" {
   ]
   
   triggers = {
-    ingress_subdomain = "${var.cluster_ingress_hostname}" 
+    ingress = local.ingress_subdomain
     kubeconfig = var.cluster_config_file
   }
 
   provisioner "local-exec" {
-    command = "${path.module}/scripts/deployLIC.sh ${self.triggers.ingress_subdomain}"
+    command = "${path.module}/scripts/deployLIC.sh ${self.triggers.ingress}"
 
     environment = {
       KUBECONFIG = self.triggers.kubeconfig
