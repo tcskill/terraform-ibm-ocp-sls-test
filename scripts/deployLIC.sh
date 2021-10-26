@@ -41,8 +41,8 @@ spec:
     retryWrites: true
     certificates:
     - alias: mongoca
-      crt: |-8
-${CACERT}
+      crt: >
+        ${CACERT}
   rlks:
     storage:
       class: ${SLSSTOR}
