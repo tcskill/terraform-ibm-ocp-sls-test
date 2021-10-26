@@ -49,7 +49,7 @@ spec:
       size: 20G
 EOL
 
-    #kubectl apply -f  "${CHARTS_DIR}/license_sls.yaml"
+    kubectl apply -f  "${CHARTS_DIR}/license_sls.yaml"
 fi
 
 #wait for deployment
