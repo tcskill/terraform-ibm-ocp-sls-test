@@ -106,11 +106,13 @@ resource "null_resource" "deploy_lic" {
   
   triggers = {
     ingress = local.ingress_subdomain
+    sls_namespace=var.sls_namespace
+    sls_sc=var.sls_storageClass
     kubeconfig = var.cluster_config_file
   }
 
   provisioner "local-exec" {
-    command = "${path.module}/scripts/deployLIC.sh ${self.triggers.ingress}"
+    command = "${path.module}/scripts/deployLIC.sh ${self.triggers.ingress} ${self.triggers.sls_namespace} ${self.triggers.sls_sc}"
 
     environment = {
       KUBECONFIG = self.triggers.kubeconfig
@@ -119,7 +121,7 @@ resource "null_resource" "deploy_lic" {
 
   provisioner "local-exec" {
     when = destroy
-    command = "${path.module}/scripts/deployLIC.sh null destroy"
+    command = "${path.module}/scripts/deployLIC.sh null null null destroy"
 
     environment = {
       KUBECONFIG = self.triggers.kubeconfig

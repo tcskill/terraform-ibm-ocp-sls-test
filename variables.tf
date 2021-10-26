@@ -32,9 +32,16 @@ variable "sls_key" {
 
 }
 
+variable "sls_storageClass" {
+  type        = string
+  description = "Name for sls file storage class"
+  default = "portworx-db2-rwx-sc"
+}
+
 variable "mongo_dbpass" {
   type        = string
   description = "mongodb password"
 
 }
+
 
