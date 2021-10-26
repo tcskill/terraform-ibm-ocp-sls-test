@@ -1,7 +1,7 @@
 locals {
   bin_dir = module.setup_clis.bin_dir
   tmp_dir = "${path.cwd}/.tmp"
-  ingress_subdomain = "${var.cluster_ingress_hostname}"
+  ingress_subdomain = var.cluster_ingress_hostname
 
 }
 
@@ -74,16 +74,7 @@ resource "null_resource" "entitlesecret" {
       KUBECONFIG = self.triggers.kubeconfig
     }
   }
-  /*
-  provisioner "local-exec" {
-    when = destroy
-    command = "kubectl delete secret docker-registry -n ${self.triggers.sls_namespace}"
 
-    environment = {
-      KUBECONFIG = self.triggers.kubeconfig
-    }
-  }
-*/
 }
 
 resource "null_resource" "mongopass" {
@@ -105,16 +96,7 @@ resource "null_resource" "mongopass" {
       KUBECONFIG = self.triggers.kubeconfig
     }
   }
-  /*
-  provisioner "local-exec" {
-    when = destroy
-    command = "kubectl delete secret  sls-mongo-credentials -n ${self.triggers.sls_namespace}"
 
-    environment = {
-      KUBECONFIG = self.triggers.kubeconfig
-    }
-  }
-*/
 }
 
 resource "null_resource" "deploy_lic" {

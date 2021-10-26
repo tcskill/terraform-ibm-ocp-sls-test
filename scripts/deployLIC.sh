@@ -2,9 +2,9 @@
 
 
 CHARTS_DIR=$(cd $(dirname $0)/../charts; pwd -P)
-INGRESS="$2"
+INGRESS="$1"
 
-if [[ "$1" == "destroy" ]]; then
+if [[ "$2" == "destroy" ]]; then
     echo "remove license service..."
     #kubectl delete -f  "${CHARTS_DIR}/catalog.yaml"
    
