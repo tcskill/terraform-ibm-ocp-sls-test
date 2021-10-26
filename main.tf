@@ -121,7 +121,7 @@ resource "null_resource" "deploy_lic" {
   ]
   
   triggers = {
-    ingress_subdomain = var.cluster_ingress_hostname 
+    ingress_subdomain = "${var.cluster_ingress_hostname}" 
     kubeconfig = var.cluster_config_file
   }
 
