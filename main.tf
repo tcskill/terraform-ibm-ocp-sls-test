@@ -99,7 +99,7 @@ resource "null_resource" "mongopass" {
 
 }
 
-resource "null_resource" "deploy_liccsv" {
+resource "null_resource" "deploy_licsub" {
     depends_on = [
     null_resource.mongopass
   ]
@@ -110,7 +110,7 @@ resource "null_resource" "deploy_liccsv" {
   }
 
   provisioner "local-exec" {
-    command = "${path.module}/scripts/deploycsv.sh ${self.triggers.sls_namespace}"
+    command = "${path.module}/scripts/deployLICsub.sh ${self.triggers.sls_namespace}"
 
     environment = {
       KUBECONFIG = self.triggers.kubeconfig
@@ -119,7 +119,7 @@ resource "null_resource" "deploy_liccsv" {
 
   provisioner "local-exec" {
     when = destroy
-    command = "${path.module}/scripts/deploycsv.sh ${self.triggers.sls_namespace} destroy"
+    command = "${path.module}/scripts/deployLICsub.sh ${self.triggers.sls_namespace} destroy"
 
     environment = {
       KUBECONFIG = self.triggers.kubeconfig
@@ -129,7 +129,7 @@ resource "null_resource" "deploy_liccsv" {
 
 resource "null_resource" "deploy_lic" {
     depends_on = [
-    null_resource.deploy_liccsv
+    null_resource.deploy_licsub
   ]
   
   triggers = {

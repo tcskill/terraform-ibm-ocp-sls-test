@@ -11,11 +11,6 @@ if [[ "$4" == "destroy" ]]; then
     kubectl delete LicenseService sls -n ${SLSNAMESPACE}
 else 
     echo "adding license service..."
-    CACERT=$(kubectl get ConfigMap mas-mongo-ce-cert-map -n mongo -o jsonpath='{.data.ca\.crt}' | awk 'NF {sub(/\r/, ""); printf "%s\\n",$0;}')
-    #CACERT=awk 'NF {sub(/\r/, ""); printf "%s\\n",$0;}' ${CACERT}
-    echo "cacert: ${CACERT}"
-    echo "ingress sub: ${INGRESS}"
-
 cat > "${CHARTS_DIR}/license_sls.yaml" << EOL
 apiVersion: sls.ibm.com/v1
 kind: LicenseService
@@ -42,17 +37,17 @@ spec:
     retryWrites: true
     certificates:
     - alias: mongoca
-      crt: |-8
-        ${CACERT}
+      crt: |
+$(kubectl get ConfigMap mas-mongo-ce-cert-map -n mongo -o jsonpath='{.data.ca\.crt}' | awk '{printf "        %s\n", $0}')
   rlks:
     storage:
       class: ${SLSSTOR}
       size: 20G
 EOL
 
-    #kubectl create -f  "${CHARTS_DIR}/license_sls.yaml" -n ${SLSNAMESPACE}
+    kubectl create -f  "${CHARTS_DIR}/license_sls.yaml" -n ${SLSNAMESPACE}
 fi
 
 #wait for deployment
-#sleep 1m
+sleep 1m
 
