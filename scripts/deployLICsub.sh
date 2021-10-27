@@ -24,7 +24,7 @@ spec:
   source: ibm-operator-catalog
   sourceNamespace: openshift-marketplace
 EOL
-    kubectl apply -f  "${CHARTS_DIR}/license_sub.yaml" -n ${SLSNAMESPACE}
+    kubectl apply -f  "${CHARTS_DIR}/license_sub.yaml" -n ${SLSNAMESPACE} --validate=false
 fi
 
 #wait for deployment
