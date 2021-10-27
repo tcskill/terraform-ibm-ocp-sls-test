@@ -50,7 +50,7 @@ spec:
       size: 20G
 EOL
 
-    kubectl create -f  "${CHARTS_DIR}/license_sls.yaml" -n ${SLSNAMESPACE}
+    #kubectl create -f  "${CHARTS_DIR}/license_sls.yaml" -n ${SLSNAMESPACE}
 fi
 
 #wait for deployment
