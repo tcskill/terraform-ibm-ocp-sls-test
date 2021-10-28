@@ -31,7 +31,17 @@ modules can help provide the required information:
 ## Example usage
 
 ```hcl-terraform
-module "dev_ocp_mas85" {
+module "mas_sls" {
+  source = "github.com/tcskill/terraform-ibm-ocp-sls-test"
+
+  cluster_config_file      = module.cluster.config_file_path
+  cluster_type             = module.cluster.platform.type_code
+  cluster_ingress_hostname = module.cluster.platform.ingress
+  tls_secret_name          = module.cluster.platform.tls_secret
+  
+  sls_namespace = var.mysls_namespace
+  sls_key       = var.mysls_key
+  mongo_dbpass  = var.mymongo_dbpass
 
 }
 ```
