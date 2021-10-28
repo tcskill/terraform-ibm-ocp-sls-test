@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+if [[ -z "${TMP_DIR}" ]]; then
+  TMP_DIR="./tmp"
+fi
+mkdir -p "${TMP_DIR}"
 
 CHARTS_DIR=$(cd $(dirname $0)/../charts; pwd -P)
 INGRESS="$1"
@@ -11,7 +15,7 @@ if [[ "$4" == "destroy" ]]; then
     kubectl delete LicenseService sls -n ${SLSNAMESPACE}
 else 
     echo "adding license service..."
-cat > "${CHARTS_DIR}/license_sls.yaml" << EOL
+cat > "${TMP_DIR}/license_sls.yaml" << EOL
 apiVersion: sls.ibm.com/v1
 kind: LicenseService
 metadata:
@@ -45,7 +49,7 @@ $(kubectl get ConfigMap mas-mongo-ce-cert-map -n mongo -o jsonpath='{.data.ca\.c
       size: 20G
 EOL
 
-    kubectl create -f  "${CHARTS_DIR}/license_sls.yaml" -n ${SLSNAMESPACE}
+    kubectl create -f  "${TMP_DIR}/license_sls.yaml" -n ${SLSNAMESPACE}
 fi
 
 #wait for deployment

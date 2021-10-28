@@ -35,6 +35,7 @@ resource "null_resource" "deploy_catalog" {
   }
 }
 
+/*
 # Service Binding Operator
 
 resource "null_resource" "patchSBO" {
@@ -55,11 +56,12 @@ resource "null_resource" "patchSBO" {
   }
 
 }
-
+*/
 
 resource "null_resource" "entitlesecret" {
   depends_on = [
-    null_resource.patchSBO
+    null_resource.deploy_catalog
+
   ]
 
   triggers = {
@@ -79,7 +81,7 @@ resource "null_resource" "entitlesecret" {
 
 resource "null_resource" "mongopass" {
   depends_on = [
-    null_resource.patchSBO
+    null_resource.deploy_catalog
   ]
 
   triggers = {
