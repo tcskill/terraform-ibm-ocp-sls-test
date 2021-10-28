@@ -13,6 +13,7 @@ if [[ "$2" == "destroy" ]]; then
 else 
     echo "adding license subscription service..."
 cat > "${CHARTS_DIR}/license_sub.yaml" << EOL
+apiVersion: operators.coreos.com/v1alpha1
 kind: Subscription
 metadata:
   name: ibm-sls
@@ -28,4 +29,4 @@ EOL
 fi
 
 #wait for deployment
-sleep 4m
+sleep 3m
