@@ -41,7 +41,7 @@ variable "tls_secret_name" {
   default = ""
 }
 
-variable "mysls_namespace" {
+variable "sls_namespace" {
   type        = string
   description = "sls namespace"
   default = "ibm-sls"
