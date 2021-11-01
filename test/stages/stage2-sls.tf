@@ -7,7 +7,7 @@ module "sls" {
   tls_secret_name          = module.dev_cluster.platform.tls_secret
   
   sls_namespace = var.mysls_namespace
-  sls_key = TF_VAR_sls_key
-  mongo_dbpass=TF_VAR_mongo_dbpass
+  sls_key = var.sls_key
+  mongo_dbpass=var.mongo_dbpass
 
 }
