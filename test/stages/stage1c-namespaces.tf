@@ -8,7 +8,7 @@ module "tools_mongo_namespace" {
 }
 
 
-resource null_resource write_namespace {
+resource null_resource write_mongo_namespace {
   provisioner "local-exec" {
     command = "echo '${var.mongo_namespace}' > ${path.cwd}/mongo_namespace"
   }
