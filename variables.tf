@@ -61,3 +61,9 @@ variable "mongo_svcname" {
   description = "service name for mongo"
   
 }
+
+variable "certmgr_namespace" {
+  type        = string
+  description = "Namespace where cert-manager is deployed"
+  default = "cert-manager"
+}

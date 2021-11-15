@@ -11,5 +11,6 @@ module "sls" {
   mongo_dbpass    = module.dev_mongo.mongo_pw
   mongo_namespace = module.dev_mongo.mongo_namespace
   mongo_svcname   = module.dev_mongo.mongo_servicename
+  certmgr_namespace = module.dev_certmgr.cert_namespace
   
 }

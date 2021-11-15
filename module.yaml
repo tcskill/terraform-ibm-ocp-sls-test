@@ -23,6 +23,10 @@ versions:
       refs:
         - source: github.com/cloud-native-toolkit/terraform-ocp-mongodb
           version: ">= 1.1.0"
+    - id: certmgr
+      refs:
+        - source: github.com/cloud-native-toolkit/terraform-ocp-certmanager
+          version: ">= 1.0.1"
   variables:
     - name: cluster_type
       moduleRef:
@@ -56,3 +60,7 @@ versions:
       moduleRef:
         id: mongodb
         output: mongo_servicename
+    - name: certmgr_namespace
+      moduleRef:
+        id: certmgr
+        output: cert_namespace
