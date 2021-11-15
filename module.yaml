@@ -1,6 +1,6 @@
 name: SLS
 type: terraform
-description: Module to install Suite License Service
+description: Module to install IBM Suite License Service
 tags:
     - tools
 versions:
@@ -19,6 +19,10 @@ versions:
       refs:
         - source: github.com/ibm-garage-cloud/terraform-k8s-namespace
           version: ">= 2.1.0"
+    - id: mongodb
+      refs:
+        - source: github.com/cloud-native-toolkit/terraform-ocp-mongodb
+          version: ">= 1.1.0"
   variables:
     - name: cluster_type
       moduleRef:
@@ -36,3 +40,19 @@ versions:
       moduleRef:
         id: cluster
         output: platform.tls_secret
+    - name: sls_namespace
+      moduleRef:
+        id: namespace
+        output: name
+    - name: mongo_dbpass
+      moduleRef:
+        id: mongodb
+        output: mongo_pw
+    - name: mongo_namespace
+      moduleRef:
+        id: mongodb
+        output: mongo_namespace
+    - name: mongo_svcname
+      moduleRef:
+        id: mongodb
+        output: mongo_servicename

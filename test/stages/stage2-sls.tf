@@ -8,8 +8,8 @@ module "sls" {
   
   sls_namespace   = module.dev_sls_namespace.name
   sls_key         = var.sls_key
-  mongo_dbpass    = module.dev_mongo.mongo_dbpass
+  mongo_dbpass    = module.dev_mongo.mongo_pw
   mongo_namespace = module.dev_mongo.mongo_namespace
-  mongo_svcname   = module.dev_mongo.mongo_svcname
+  mongo_svcname   = module.dev_mongo.mongo_servicename
   
 }
