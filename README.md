@@ -2,7 +2,7 @@
 
 ![Verify and release module](https://github.com/cloud-native-toolkit/terraform-ibm-ocp-sls/workflows/Verify%20and%20release%20module/badge.svg)
 
-Deploys IBM Suite License Service on RedHat OpenShift.  This modules currently requires mongodb-ce instance on the OpenShift cluster.
+Deploys IBM Suite License Service on RedHat OpenShift.  This modules currently requires mongodb-ce instance on the OpenShift cluster.  A module to deploy mongodb-ce on the cluster can be found below.
 
 ## Supported platforms
 
