@@ -9,12 +9,19 @@ CHARTS_DIR=$(cd $(dirname $0)/../charts; pwd -P)
 INGRESS="$1"
 SLSNAMESPACE="$2"
 SLSSTOR="$3"
+MONGONAMESPACE="$4"
+SVC="$5"
 
-if [[ "$4" == "destroy" ]]; then
+if [[ "$6" == "destroy" ]]; then
     echo "remove license service..."
     kubectl delete LicenseService sls -n ${SLSNAMESPACE}
 else 
     echo "adding license service..."
+
+    PODLIST=$(kubectl get pods --selector=app=mas-mongo-ce-svc -o=json -n mongo -o=jsonpath={.items..metadata.name})
+    PODLIST=($PODLIST)
+    PORT=$(kubectl get svc mas-mongo-ce-svc -n mongo -o=jsonpath='{.spec.ports[?(@.name=="mongodb")].port}')
+
 cat > "${TMP_DIR}/license_sls.yaml" << EOL
 apiVersion: sls.ibm.com/v1
 kind: LicenseService
@@ -30,19 +37,14 @@ spec:
   mongo:
     configDb: admin
     nodes:
-      - host: mas-mongo-ce-0.mas-mongo-ce-svc.mongo.svc
-        port: 27017
-      - host: mas-mongo-ce-1.mas-mongo-ce-svc.mongo.svc
-        port: 27017
-      - host: mas-mongo-ce-2.mas-mongo-ce-svc.mongo.svc
-        port: 27017
+$(for podname in "${PODLIST[@]}"; do echo "      - host: "$podname.$SVC.$MONGONAMESPACE.svc$'\n        port: '$PORT; done)
     secretName: sls-mongo-credentials
     authMechanism: DEFAULT
     retryWrites: true
     certificates:
     - alias: mongoca
       crt: |
-$(kubectl get ConfigMap mas-mongo-ce-cert-map -n mongo -o jsonpath='{.data.ca\.crt}' | awk '{printf "        %s\n", $0}')
+$(kubectl get ConfigMap mas-mongo-ce-cert-map -n ${MONGONAMESPACE} -o jsonpath='{.data.ca\.crt}' | awk '{printf "        %s\n", $0}')
   rlks:
     storage:
       class: ${SLSSTOR}

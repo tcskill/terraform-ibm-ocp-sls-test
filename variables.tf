@@ -44,4 +44,14 @@ variable "mongo_dbpass" {
 
 }
 
+variable "mongo_namespace" {
+  type        = string
+  description = "namespace for mongo"
+  
+}
 
+variable "mongo_svcname" {
+  type        = string
+  description = "service name for mongo"
+  
+}

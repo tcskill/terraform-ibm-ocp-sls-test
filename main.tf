@@ -64,12 +64,13 @@ resource "null_resource" "mongopass" {
   triggers = {
     sls_namespace=var.sls_namespace
     sls_mongopw=var.mongo_dbpass
+    sls_mongouid=var.mongo_userid
 
     kubeconfig = var.cluster_config_file
   }
 
   provisioner "local-exec" {
-    command = "kubectl create secret generic sls-mongo-credentials --from-literal=username=admin --from-literal=password=${self.triggers.sls_mongopw} -n ${self.triggers.sls_namespace}"
+    command = "kubectl create secret generic sls-mongo-credentials --from-literal=username=${self.triggers.sls_mongouid} --from-literal=password=${self.triggers.sls_mongopw} -n ${self.triggers.sls_namespace}"
 
     environment = {
       KUBECONFIG = self.triggers.kubeconfig
@@ -115,11 +116,13 @@ resource "null_resource" "deploy_lic" {
     ingress = local.ingress_subdomain
     sls_namespace=var.sls_namespace
     sls_sc=var.sls_storageClass
+    mongo_namespace=var.mongo_namespace
+    mongo_svc=var.mongo_svcname
     kubeconfig = var.cluster_config_file
   }
 
   provisioner "local-exec" {
-    command = "${path.module}/scripts/deployLIC.sh ${self.triggers.ingress} ${self.triggers.sls_namespace} ${self.triggers.sls_sc}"
+    command = "${path.module}/scripts/deployLIC.sh ${self.triggers.ingress} ${self.triggers.sls_namespace} ${self.triggers.sls_sc} ${self.triggers.mongo_namespace} ${self.triggers.sls_sc} ${self.triggers.mongo_svc}"
 
     environment = {
       KUBECONFIG = self.triggers.kubeconfig
@@ -128,7 +131,7 @@ resource "null_resource" "deploy_lic" {
 
   provisioner "local-exec" {
     when = destroy
-    command = "${path.module}/scripts/deployLIC.sh null null null destroy"
+    command = "${path.module}/scripts/deployLIC.sh null null null null null destroy"
 
     environment = {
       KUBECONFIG = self.triggers.kubeconfig
