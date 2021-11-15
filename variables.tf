@@ -38,6 +38,12 @@ variable "sls_storageClass" {
   default = "portworx-db2-rwx-sc"
 }
 
+variable "mongo_userid" {
+  type        = string
+  description = "mongodb admin userid, should stay admin in most cases"
+  default     = "admin"
+}
+
 variable "mongo_dbpass" {
   type        = string
   description = "mongodb password"
