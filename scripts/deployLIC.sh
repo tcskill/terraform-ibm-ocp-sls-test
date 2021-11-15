@@ -55,5 +55,5 @@ EOL
 fi
 
 #wait for deployment
-sleep 1m
+sleep 5m
 
