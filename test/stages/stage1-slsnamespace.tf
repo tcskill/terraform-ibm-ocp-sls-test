@@ -3,7 +3,7 @@ module "dev_sls_namespace" {
 
   cluster_config_file_path = module.dev_cluster.config_file_path
   name                     = var.sls_namespace
-  create_operator_group = false
+  create_operator_group    = true
 }
 
 
