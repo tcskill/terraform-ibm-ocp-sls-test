@@ -1,11 +1,8 @@
-name: MAS
+name: SLS
 type: terraform
-description: Module to install MAS
+description: Module to install Suite License Service
 tags:
     - tools
-    - devops
-    - quality gate
-    - lint
 versions:
 - platforms:
     - ocp4
