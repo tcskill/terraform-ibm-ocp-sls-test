@@ -57,3 +57,5 @@ fi
 #wait for deployment
 sleep 5m
 
+SLSKEY=$(kubectl get LicenseService sls -n ${SLSNAMESPACE} --output="jsonpath={..registrationKey}")
+echo ${SLSKEY} > ${TMP_DIR}/sls-key

@@ -138,3 +138,9 @@ resource "null_resource" "deploy_lic" {
     }
   }
 }
+
+data "local_file" "slskey" {
+    depends_on = [null_resource.deploy_lic]
+    
+    filename = "${local.tmp_dir}/sls-key"
+}

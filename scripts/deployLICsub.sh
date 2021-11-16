@@ -29,4 +29,5 @@ EOL
 fi
 
 #wait for deployment
-sleep 3m
+sleep 4m
+
