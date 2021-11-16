@@ -1,5 +1,5 @@
 module "dev_certmgr" {
-  source = "github.com/cloud-native-toolkit/terraform-ocp-certmanager?ref=v1.0.1"
+  source = "github.com/cloud-native-toolkit/terraform-ocp-certmanager"
 
   cluster_config_file      = module.dev_cluster.config_file_path
   cluster_type             = module.dev_cluster.platform.type_code

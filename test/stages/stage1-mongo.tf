@@ -1,5 +1,5 @@
 module "dev_mongo" {
-  source = "github.com/cloud-native-toolkit/terraform-ocp-mongodb?ref=v1.1.1"
+  source = "github.com/cloud-native-toolkit/terraform-ocp-mongodb"
 
   cluster_config_file      = module.dev_cluster.config_file_path
   cluster_type             = module.dev_cluster.platform.type_code

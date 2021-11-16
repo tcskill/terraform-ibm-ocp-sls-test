@@ -22,7 +22,7 @@ versions:
     - id: mongodb
       refs:
         - source: github.com/cloud-native-toolkit/terraform-ocp-mongodb
-          version: ">= 1.1.0"
+          version: ">= 1.2.0"
     - id: certmgr
       refs:
         - source: github.com/cloud-native-toolkit/terraform-ocp-certmanager
