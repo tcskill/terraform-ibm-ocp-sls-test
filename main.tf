@@ -43,11 +43,12 @@ resource "null_resource" "entitlesecret" {
 
   triggers = {
     sls_namespace=var.sls_namespace
+    slskey=var.sls_key
     kubeconfig = var.cluster_config_file
   }
 
   provisioner "local-exec" {
-    command = "kubectl create secret docker-registry ibm-entitlement --docker-server=cp.icr.io --docker-username='cp' --docker-password=${var.sls_key} -n ${self.triggers.sls_namespace}"
+    command = "kubectl create secret docker-registry ibm-entitlement --docker-server=cp.icr.io --docker-username='cp' --docker-password=${self.triggers.slskey} -n ${self.triggers.sls_namespace}"
 
     environment = {
       KUBECONFIG = self.triggers.kubeconfig
