@@ -123,7 +123,7 @@ resource "null_resource" "deploy_lic" {
   }
 
   provisioner "local-exec" {
-    command = "${path.module}/scripts/deployLIC.sh ${self.triggers.ingress} ${self.triggers.sls_namespace} ${self.triggers.sls_sc} ${self.triggers.mongo_namespace} ${self.triggers.sls_sc} ${self.triggers.mongo_svc}"
+    command = "${path.module}/scripts/deployLIC.sh ${self.triggers.ingress} ${self.triggers.sls_namespace} ${self.triggers.sls_sc} ${self.triggers.mongo_namespace} ${self.triggers.mongo_svc}"
 
     environment = {
       KUBECONFIG = self.triggers.kubeconfig
